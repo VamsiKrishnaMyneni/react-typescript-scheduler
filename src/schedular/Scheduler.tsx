@@ -21,12 +21,17 @@ import MonthModeView from "./MonthModeView"
 import WeekModeView from "./WeekModeView"
 import DayModeView from "./DayModeView"
 import TimeLineModeView from "./TimeLineModeView"
-
+import { modesCustomType, modesType, startWeekCustomType } from './types'
 
 type SchedulerProps = {
   events: Array<any>;
   locale?: string;
-  options?: any;
+  options?: {
+    defaultMode?: modesCustomType;
+    modes?: modesType[],
+    startWeekOn?: startWeekCustomType,
+    transitionMode?: string
+  };
   alertProps?: any;
   onCellClick: (date: Date) => void;
   legacyStyle?: boolean;
@@ -47,7 +52,10 @@ function Scheduler(props: SchedulerProps) {
   const {
     events,
     locale = 'en',
-    options = { defaultMode: 'month' },
+    options = {
+      defaultMode: 'month',
+      modes: [{ label: 'month', value: 'month' }]
+    },
     alertProps,
     onCellClick,
     legacyStyle = false,
@@ -74,9 +82,9 @@ function Scheduler(props: SchedulerProps) {
   const [searchResult, setSearchResult] = useState();
   const [selectedDay, setSelectedDay] = useState(today)
   const [alertState, setAlertState] = useState(alertProps)
-  const [mode, setMode] = useState(MODES.includes(options?.defaultMode) ? options?.defaultMode : MONTH);
+  const [mode, setMode] = useState<modesCustomType>(options?.defaultMode && MODES?.includes(options.defaultMode) ? options.defaultMode : MONTH);
   const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(today))
-  const [startWeekOn, setStartWeekOn] = useState(options?.startWeekOn || 'mon')
+  const [startWeekOn, setStartWeekOn] = useState<startWeekCustomType>(options?.startWeekOn || 'mon')
   const [selectedDate, setSelectedDate] = useState(format(today, 'MMMM-yyyy'))
   const [weekDays, updateWeekDays] = useReducer((state) => {
     if (options?.startWeekOn?.toUpperCase() === 'SUN') {
@@ -418,7 +426,7 @@ function Scheduler(props: SchedulerProps) {
    * @param newMode
    * @return void
    */
-  const handleModeChange = (newMode: string) => {
+  const handleModeChange = (newMode: modesCustomType) => {
     setMode(newMode)
   }
 
@@ -506,13 +514,13 @@ function Scheduler(props: SchedulerProps) {
 
   useEffect(() => {
     if (options?.defaultMode !== mode) {
-      setMode(options?.defaultMode)
+      setMode(options?.defaultMode || MONTH)
     }
   }, [options?.defaultMode, mode])
 
   useEffect(() => {
     if (options?.startWeekOn !== startWeekOn) {
-      setStartWeekOn(options?.startWeekOn)
+      setStartWeekOn(options?.startWeekOn || 'mon')
     }
     updateWeekDays()
   }, [options?.startWeekOn, startWeekOn])

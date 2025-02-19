@@ -8,6 +8,7 @@ import {
 import { isSameMonth } from 'date-fns'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import EventItem from "./EventItem"
+import { modesCustomType, modesType, startWeekCustomType } from './types'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -46,7 +47,13 @@ interface MonthModeViewProps {
   columns: Array<{ headerName: string }>,
   rows: Array<{ id: string, days: Array<{ id: string, day: number, date: Date, data: Array<any> }> }>,
   date?: string,
-  options?: { minWidth?: number },
+  options?: {
+    defaultMode?: modesCustomType;
+    modes?: modesType[],
+    startWeekOn?: startWeekCustomType,
+    transitionMode?: string,
+    minWidth?: number
+  },
   onDateChange?: (date: string) => void,
   onTaskClick?: (event: React.MouseEvent, task: any) => void,
   onCellClick?: (event: React.MouseEvent, row: any, day: any) => void,

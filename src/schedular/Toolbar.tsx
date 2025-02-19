@@ -23,6 +23,7 @@ import GridViewIcon from '@mui/icons-material/GridView'
 import ToolbarSearchbar from "./ToolbarSeachBar"
 import DateFnsLocaleContext from "../dateFnsContext"
 import { AlertProps as MuiAlertProps } from '@mui/material/Alert';
+import { modesCustomType } from './types'
 
 interface AlertProps extends MuiAlertProps {
   showActionButton?: boolean;
@@ -34,7 +35,7 @@ interface AlertProps extends MuiAlertProps {
 interface SchedulerToolbarProps {
   today: Date;
   events: any[];
-  switchMode: string;
+  switchMode: "month" | 'timeline' | 'week' | 'day';
   alertProps?: AlertProps;
   locale: string;
   toolbarProps?: {
@@ -44,7 +45,7 @@ interface SchedulerToolbarProps {
     showOptions?: boolean;
   };
   onDateChange: (daysInMonth: number, selectedDate: Date) => void;
-  onModeChange: (mode: string) => void;
+  onModeChange: (mode: modesCustomType) => void;
   onSearchResult: (result: any) => void;
   onAlertCloseButtonClicked: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -192,6 +193,15 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
                 >
                   <ChevronLeftIcon />
                 </IconButton>
+                <IconButton
+                  sx={{ ml: .2 }}
+                  size="small"
+                  color="inherit"
+                  edge="start"
+                  onClick={() => handleChangeDate(add)}
+                >
+                  <ChevronRightIcon />
+                </IconButton>
                 <Button
                   size="small"
                   id="basic-button"
@@ -208,15 +218,6 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
                     { locale: dateFnsLocale }
                   )}
                 </Button>
-                <IconButton
-                  sx={{ ml: .2 }}
-                  size="small"
-                  color="inherit"
-                  edge="start"
-                  onClick={() => handleChangeDate(add)}
-                >
-                  <ChevronRightIcon />
-                </IconButton>
               </Hidden>
               <Hidden smUp>
                 <IconButton
