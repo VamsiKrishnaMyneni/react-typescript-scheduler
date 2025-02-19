@@ -28,9 +28,9 @@ type SchedulerProps = {
   locale?: string;
   options?: {
     defaultMode?: modesCustomType;
-    modes?: modesType[],
-    startWeekOn?: startWeekCustomType,
-    transitionMode?: string
+    modes?: modesType[];
+    startWeekOn?: startWeekCustomType;
+    transitionMode?: 'zoom' | 'slide' | 'fade'
   };
   alertProps?: any;
   onCellClick: (date: Date) => void;
@@ -54,7 +54,8 @@ function Scheduler(props: SchedulerProps) {
     locale = 'en',
     options = {
       defaultMode: 'month',
-      modes: [{ label: 'month', value: 'month' }]
+      modes: [{ label: 'month', value: 'month' }],
+      transitionMode: 'fade'
     },
     alertProps,
     onCellClick,
@@ -427,7 +428,7 @@ function Scheduler(props: SchedulerProps) {
    * @return void
    */
   const handleModeChange = (newMode: modesCustomType) => {
-    setMode(newMode)
+    setMode(() => newMode)
   }
 
   /**
@@ -516,7 +517,8 @@ function Scheduler(props: SchedulerProps) {
     if (options?.defaultMode !== mode) {
       setMode(options?.defaultMode || MONTH)
     }
-  }, [options?.defaultMode, mode])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options?.defaultMode])
 
   useEffect(() => {
     if (options?.startWeekOn !== startWeekOn) {

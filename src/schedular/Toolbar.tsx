@@ -144,11 +144,6 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
   }
 
   useEffect(() => {
-    if (mode && onModeChange) { onModeChange(mode) }
-    // eslint-disable-next-line
-  }, [mode])
-
-  useEffect(() => {
     onDateChange && onDateChange(daysInMonth, selectedDate)
     // eslint-disable-next-line
   }, [daysInMonth, selectedDate])
@@ -158,11 +153,11 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
     // eslint-disable-next-line
   }, [searchResult])
 
-  useEffect(() => {
-    if (switchMode !== mode) {
-      setMode(switchMode)
-    }
-  }, [switchMode, mode])
+  // useEffect(() => {
+  //   // if (switchMode !== mode) {
+  //   setMode(switchMode)
+  //   //}
+  // }, [switchMode])
 
   return (
     <Toolbar
@@ -184,7 +179,7 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
             <Typography component="div" sx={{ display: 'flex' }}>
               <Hidden smDown>
                 <IconButton
-                  sx={{ ml: 0, mr: -.1 }}
+                  sx={{ ml: .2, mr: -.1 }}
                   size="medium"
                   edge="start"
                   color="inherit"
@@ -194,8 +189,8 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
                   <ChevronLeftIcon />
                 </IconButton>
                 <IconButton
-                  sx={{ ml: .2 }}
-                  size="small"
+                  sx={{ ml: .2, mr: -.1 }}
+                  size="medium"
                   color="inherit"
                   edge="start"
                   onClick={() => handleChangeDate(add)}
@@ -298,9 +293,8 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
                   color="primary"
                   aria-label="text button group"
                   sx={{ mt: .2, mr: 1.3, display: 'contents' }}
-                  onChange={(e, newMode) => {
-                    setMode(newMode)
-                  }}
+                  onChange={(e, newMode) => { setMode(() => newMode); onModeChange(newMode) }
+                  }
                 >
                   {
                     // [
@@ -309,10 +303,10 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
                     //   { label: t('day'), value: 'day' },
                     //   { label: t('timeline'), value: 'timeline' }
                     // ]
-                    [{ label: 'month', value: 'month' },
-                    { label: 'week', value: 'week' },
-                    { label: 'day', value: 'day' },
-                    { label: 'timeline', value: 'timeline' }].map(tb => (
+                    [{ label: 'Month', value: 'month' },
+                    { label: 'Week', value: 'week' },
+                    { label: 'Day', value: 'day' },
+                    { label: 'Timeline', value: 'timeline' }].map(tb => (
                       <ToggleButton sx={{ mt: .5 }} key={tb.value} value={tb.value}>
                         {tb.label}
                       </ToggleButton>

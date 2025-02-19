@@ -97,7 +97,7 @@ function ToolbarSearchbar(props: ToolbarSearchbarProps) {
           {...params}
           size="small"
           // label={t('search')}
-          label="Search"
+          placeholder="Search"
           InputProps={{ ...params.InputProps }}
         />
       )}

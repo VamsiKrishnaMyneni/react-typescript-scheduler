@@ -97,19 +97,18 @@ function WeekModeView(props: WeekModeViewProps) {
   }
 
   const onCellDragStart = (e: React.DragEvent<HTMLTableCellElement>, item: any, rowLabel: string, rowIndex: number, dayIndex: number) => {
-    setState({
-      ...state,
+    setState((prev) => ({
+      ...prev,
       itemTransfert: { item, rowLabel, rowIndex, dayIndex }
-    }
-    )
+    }))
   }
 
   const onCellDragEnter = (e: React.DragEvent<HTMLTableCellElement>, rowLabel: string, rowIndex: number, dayIndex: number) => {
     e.preventDefault()
-    setState({
-      ...state,
+    setState((prev) => ({
+      ...prev,
       transfertTarget: { rowLabel, rowIndex, dayIndex }
-    })
+    }))
   }
 
   const onCellDragEnd = (e: React.DragEvent<HTMLTableCellElement>) => {
@@ -174,7 +173,7 @@ function WeekModeView(props: WeekModeViewProps) {
         'yyyy-MM-dd'
       )
       day.data.push(transfert.item)
-      setState({ ...state, rows: rowsData })
+      setState((prev) => ({ ...prev, rows: rowsData }))
       onEventsChange && onEventsChange(transfert.item)
     }
   }
