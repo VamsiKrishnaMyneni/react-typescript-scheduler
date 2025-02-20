@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect, useReducer, use } from 'react'
 import { useTranslation, withTranslation } from 'react-i18next'
 import { Grid, Paper, Fade, Zoom, Slide } from "@mui/material"
 import {
@@ -22,6 +22,7 @@ import WeekModeView from "./WeekModeView"
 import DayModeView from "./DayModeView"
 import TimeLineModeView from "./TimeLineModeView"
 import { modesCustomType, modesType, startWeekCustomType } from './types'
+import { isValidDate } from './utils'
 
 type SchedulerProps = {
   events: Array<any>;
@@ -29,6 +30,7 @@ type SchedulerProps = {
   options?: {
     defaultMode?: modesCustomType;
     modes?: modesType[];
+    currentDate: string;
     startWeekOn?: startWeekCustomType;
     transitionMode?: 'zoom' | 'slide' | 'fade'
   };
@@ -49,13 +51,18 @@ type SchedulerProps = {
  * @constructor
  */
 function Scheduler(props: SchedulerProps) {
+  const today = new Date()
+  const { t, i18n } = useTranslation(['common'])
+
   const {
     events,
     locale = 'en',
     options = {
       defaultMode: 'month',
       modes: [{ label: 'month', value: 'month' }],
-      transitionMode: 'fade'
+      transitionMode: 'fade',
+      currentDate: today,
+      startWeekOn: 'mon'
     },
     alertProps,
     onCellClick,
@@ -65,8 +72,6 @@ function Scheduler(props: SchedulerProps) {
     onEventsChange,
     onAlertCloseButtonClicked
   } = props
-  const today = new Date()
-  const { t, i18n } = useTranslation(['common'])
   // const weeks = [
   //   t('mon'), t('tue'), t('wed'),
   //   t('thu'), t('fri'), t('sat'),
@@ -86,7 +91,7 @@ function Scheduler(props: SchedulerProps) {
   const [mode, setMode] = useState<modesCustomType>(options?.defaultMode && MODES?.includes(options.defaultMode) ? options.defaultMode : MONTH);
   const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(today))
   const [startWeekOn, setStartWeekOn] = useState<startWeekCustomType>(options?.startWeekOn || 'mon')
-  const [selectedDate, setSelectedDate] = useState(format(today, 'MMMM-yyyy'))
+  const [selectedDate, setSelectedDate] = useState(isValidDate(new Date(options?.currentDate)) ? format(new Date(options?.currentDate), 'MMMM-yyyy') : format(today, 'MMMM-yyyy'))
   const [weekDays, updateWeekDays] = useReducer((state) => {
     if (options?.startWeekOn?.toUpperCase() === 'SUN') {
       // return [
@@ -531,7 +536,7 @@ function Scheduler(props: SchedulerProps) {
     <Paper variant="outlined" elevation={0} sx={{ p: 0 }}>
       <DateFnsLocaleContext.Provider value={dateFnsLocale}>
         <SchedulerToolbar
-          today={today}
+          today={isValidDate(new Date(options?.currentDate)) ? new Date(options?.currentDate) : today}
           events={events}
           switchMode={mode}
           alertProps={alertState}
