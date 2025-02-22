@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer, use } from 'react'
+import { useState, useEffect, useReducer } from 'react'
 import { useTranslation, withTranslation } from 'react-i18next'
 import { Grid, Paper, Fade, Zoom, Slide } from "@mui/material"
 import {
@@ -510,13 +510,13 @@ function Scheduler(props: SchedulerProps) {
     startWeekOn
   ])
 
-  useEffect(() => {
-    if (locale !== i18n.language) { //localStorage.getItem('i18nextLng')
-      localStorage.setItem('i18nextLng', locale.toLowerCase())
-      // i18n?.changeLanguage(locale.toLowerCase())
-      updateWeekDays()
-    }
-  }, [locale, i18n])
+  // useEffect(() => {
+  //   if (locale !== i18n.language) { //localStorage.getItem('i18nextLng')
+  //     localStorage.setItem('i18nextLng', locale.toLowerCase())
+  //     // i18n?.changeLanguage(locale.toLowerCase())
+  //     updateWeekDays()
+  //   }
+  // }, [locale, i18n])
 
   useEffect(() => {
     if (options?.defaultMode !== mode) {
@@ -530,7 +530,7 @@ function Scheduler(props: SchedulerProps) {
       setStartWeekOn(options?.startWeekOn || 'mon')
     }
     updateWeekDays()
-  }, [options?.startWeekOn, startWeekOn])
+  }, [options?.startWeekOn])
 
   return (
     <Paper variant="outlined" elevation={0} sx={{ p: 0 }}>

@@ -72,6 +72,7 @@ interface State {
 function MonthModeView(props: MonthModeViewProps) {
   const {
     rows,
+    date,
     options,
     columns,
     legacyStyle,
@@ -83,7 +84,7 @@ function MonthModeView(props: MonthModeViewProps) {
   const theme = useTheme()
 
   const [state, setState] = useState<State>({})
-  const today = new Date()
+  const today = date ? new Date(date) : new Date()
   let currentDaySx = {
     width: 24,
     height: 22,
