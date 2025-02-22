@@ -293,7 +293,12 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
                   color="primary"
                   aria-label="text button group"
                   sx={{ mt: .2, mr: 1.3, display: 'contents' }}
-                  onChange={(e, newMode) => { setMode(() => newMode); onModeChange(newMode) }
+                  onChange={(e, newMode) => {
+                    if (newMode && newMode !== mode) {
+                      setMode(() => newMode);
+                      onModeChange(newMode)
+                    }
+                  }
                   }
                 >
                   {
