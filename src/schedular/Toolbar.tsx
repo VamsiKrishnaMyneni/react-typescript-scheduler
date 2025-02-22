@@ -33,7 +33,7 @@ interface AlertProps extends MuiAlertProps {
 
 
 interface SchedulerToolbarProps {
-  today: Date;
+  currentDate: Date;
   events: any[];
   switchMode: "month" | 'timeline' | 'week' | 'day';
   alertProps?: AlertProps;
@@ -52,7 +52,7 @@ interface SchedulerToolbarProps {
 function SchedulerToolbar(props: SchedulerToolbarProps) {
   const {
     events,
-    today,
+    currentDate,
     switchMode,
     onModeChange,
     onDateChange,
@@ -78,7 +78,7 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
   const [searchResult, setSearchResult] = useState()
   const [anchorMenuEl, setAnchorMenuEl] = useState(null)
   const [anchorDateEl, setAnchorDateEl] = useState<HTMLButtonElement | null>(null)
-  const [selectedDate, setSelectedDate] = useState(today || new Date())
+  const [selectedDate, setSelectedDate] = useState(currentDate || new Date())
   const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(selectedDate))
 
   const openMenu = Boolean(anchorMenuEl)
@@ -266,7 +266,7 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
                 onInputChange={(newValue: any) => {
                   let newDate = new Date()
                   if (newValue?.date) {
-                    newDate = parse(newValue.date, 'yyyy-MM-dd', today)
+                    newDate = parse(newValue.date, 'yyyy-MM-dd', currentDate)
                   }
                   setDaysInMonth(getDaysInMonth(newDate))
                   setSelectedDate(newDate)

@@ -536,7 +536,7 @@ function Scheduler(props: SchedulerProps) {
     <Paper variant="outlined" elevation={0} sx={{ p: 0 }}>
       <DateFnsLocaleContext.Provider value={dateFnsLocale}>
         <SchedulerToolbar
-          today={isValidDate(new Date(options?.currentDate)) ? new Date(options?.currentDate) : today}
+          currentDate={new Date(selectedDate)}
           events={events}
           switchMode={mode}
           alertProps={alertState}
