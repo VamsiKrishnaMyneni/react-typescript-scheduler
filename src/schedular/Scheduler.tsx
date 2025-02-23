@@ -21,7 +21,7 @@ import MonthModeView from "./MonthModeView"
 import WeekModeView from "./WeekModeView"
 import DayModeView from "./DayModeView"
 import TimeLineModeView from "./TimeLineModeView"
-import { modesCustomType, modesType, startWeekCustomType } from './types'
+import { modesCustomType, startWeekCustomType } from './types'
 import { isValidDate } from './utils'
 
 type SchedulerProps = {
@@ -29,7 +29,7 @@ type SchedulerProps = {
   locale?: string;
   options?: {
     defaultMode?: modesCustomType;
-    modes?: modesType[];
+    modes?: string[];
     currentDate: string;
     startWeekOn?: startWeekCustomType;
     transitionMode?: 'zoom' | 'slide' | 'fade'
@@ -53,13 +53,14 @@ type SchedulerProps = {
 function Scheduler(props: SchedulerProps) {
   const today = new Date()
   const { t, i18n } = useTranslation(['common'])
-
+  const MONTH = 'month';
+  const MODES = [MONTH, 'week', 'day', 'timeline'];
   const {
     events,
     locale = 'en',
     options = {
       defaultMode: 'month',
-      modes: [{ label: 'month', value: 'month' }],
+      modes: MODES,
       transitionMode: 'fade',
       currentDate: today,
       startWeekOn: 'mon'
@@ -82,8 +83,6 @@ function Scheduler(props: SchedulerProps) {
     'Thu', 'Fri', 'Sat',
     'Sun'
   ]
-  const MONTH = 'month';
-  const MODES = ['day', 'week', MONTH, 'timeline'];
   const [state, setState] = useState<{ columns?: any[], rows?: any[] }>({})
   const [searchResult, setSearchResult] = useState();
   const [selectedDay, setSelectedDay] = useState(today)
@@ -532,12 +531,21 @@ function Scheduler(props: SchedulerProps) {
     updateWeekDays()
   }, [options?.startWeekOn])
 
+  const getSelectedModes = () => {
+    const modes = MODES.filter((m) => options?.modes?.includes(m?.toLowerCase()))
+    return (modes.length ? modes : MODES).map((mode) => ({
+      label: mode,
+      value: mode
+    }));
+  }
+
   return (
     <Paper variant="outlined" elevation={0} sx={{ p: 0 }}>
       <DateFnsLocaleContext.Provider value={dateFnsLocale}>
         <SchedulerToolbar
           currentDate={new Date(selectedDate)}
           events={events}
+          modes={getSelectedModes()}
           switchMode={mode}
           alertProps={alertState}
           toolbarProps={toolbarProps}

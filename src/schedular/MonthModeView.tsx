@@ -8,7 +8,7 @@ import {
 import { isSameMonth } from 'date-fns'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import EventItem from "./EventItem"
-import { modesCustomType, modesType, startWeekCustomType } from './types'
+import { modesCustomType, startWeekCustomType } from './types'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,7 +49,6 @@ interface MonthModeViewProps {
   date?: string,
   options?: {
     defaultMode?: modesCustomType;
-    modes?: modesType[],
     startWeekOn?: startWeekCustomType,
     transitionMode?: string,
     minWidth?: number

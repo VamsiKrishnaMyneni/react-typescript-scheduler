@@ -36,6 +36,7 @@ interface SchedulerToolbarProps {
   currentDate: Date;
   events: any[];
   switchMode: "month" | 'timeline' | 'week' | 'day';
+  modes: { label: string, value: string }[];
   alertProps?: AlertProps;
   locale: string;
   toolbarProps?: {
@@ -53,6 +54,7 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
   const {
     events,
     currentDate,
+    modes,
     switchMode,
     onModeChange,
     onDateChange,
@@ -308,10 +310,7 @@ function SchedulerToolbar(props: SchedulerToolbarProps) {
                     //   { label: t('day'), value: 'day' },
                     //   { label: t('timeline'), value: 'timeline' }
                     // ]
-                    [{ label: 'Month', value: 'month' },
-                    { label: 'Week', value: 'week' },
-                    { label: 'Day', value: 'day' },
-                    { label: 'Timeline', value: 'timeline' }].map(tb => (
+                    modes?.map(tb => (
                       <ToggleButton sx={{ mt: .5 }} key={tb.value} value={tb.value}>
                         {tb.label}
                       </ToggleButton>
