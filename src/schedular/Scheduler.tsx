@@ -38,7 +38,10 @@ type SchedulerProps = {
   onCellClick: (date: Date) => void;
   legacyStyle?: boolean;
   onTaskClick: (task: any) => void;
-  toolbarProps?: any;
+  toolbarProps?: {
+    onModeChange: (mode: string) => void,
+    onDateChange: (daysInMonth: number, selectedDate: Date) => void
+  };
   onEventsChange: (event: any) => void;
   onAlertCloseButtonClicked: () => void;
 }
@@ -69,7 +72,10 @@ function Scheduler(props: SchedulerProps) {
     onCellClick,
     legacyStyle = false,
     onTaskClick,
-    toolbarProps,
+    toolbarProps = {
+      onModeChange: (mode: string) => { },
+      onDateChange: (daysInMonth: number, selectedDate: Date) => { }
+    },
     onEventsChange,
     onAlertCloseButtonClicked
   } = props
@@ -423,6 +429,7 @@ function Scheduler(props: SchedulerProps) {
     setDaysInMonth(daysInMonth)
     setSelectedDay(selectedDate)
     setSelectedDate(format(selectedDate, 'MMMM-yyyy'))
+    onDateChange && onDateChange(daysInMonth, selectedDate);
   }
 
   /**
@@ -432,6 +439,7 @@ function Scheduler(props: SchedulerProps) {
    * @return void
    */
   const handleModeChange = (newMode: modesCustomType) => {
+    onModeChange && onModeChange(newMode)
     setMode(() => newMode)
   }
 
