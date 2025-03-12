@@ -429,7 +429,7 @@ function Scheduler(props: SchedulerProps) {
     setDaysInMonth(daysInMonth)
     setSelectedDay(selectedDate)
     setSelectedDate(format(selectedDate, 'MMMM-yyyy'))
-    onDateChange && onDateChange(daysInMonth, selectedDate);
+    toolbarProps?.onDateChange && toolbarProps?.onDateChange(daysInMonth, selectedDate);
   }
 
   /**
