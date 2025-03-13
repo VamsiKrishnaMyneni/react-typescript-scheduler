@@ -439,7 +439,7 @@ function Scheduler(props: SchedulerProps) {
    * @return void
    */
   const handleModeChange = (newMode: modesCustomType) => {
-    onModeChange && onModeChange(newMode)
+    toolbarProps?.onModeChange && toolbarProps?.onModeChange(newMode)
     setMode(() => newMode)
   }
 
