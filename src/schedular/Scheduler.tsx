@@ -40,7 +40,11 @@ type SchedulerProps = {
   onTaskClick: (task: any) => void;
   toolbarProps?: {
     onModeChange: (mode: string) => void,
-    onDateChange: (daysInMonth: number, selectedDate: Date) => void
+    onDateChange: (daysInMonth: number, selectedDate: Date) => void,
+    showSearchBar?: boolean;
+    showSwitchModeButtons?: boolean;
+    showDatePicker?: boolean;
+    showOptions?: boolean;
   };
   onEventsChange: (event: any) => void;
   onAlertCloseButtonClicked: () => void;
@@ -74,7 +78,11 @@ function Scheduler(props: SchedulerProps) {
     onTaskClick,
     toolbarProps = {
       onModeChange: (mode: string) => { },
-      onDateChange: (daysInMonth: number, selectedDate: Date) => { }
+      onDateChange: (daysInMonth: number, selectedDate: Date) => { },
+      showSearchBar: false,
+      showSwitchModeButtons: true,
+      showDatePicker: false,
+      showOptions: true,
     },
     onEventsChange,
     onAlertCloseButtonClicked
